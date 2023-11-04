@@ -1,5 +1,26 @@
 <script setup>
+  import { ref } from 'vue';
+  import { useUserStore } from '../stores/user';
+  import {useRouter} from 'vue-router'
+  // import router from '../router'
 
+  const router = useRouter()
+  const user = useUserStore();
+  const errorMsg = ref('')
+  const formData = {
+    email: null,
+    password: null,
+  }
+
+  function login() {
+    user.login(formData)
+    .then(() => {
+      router.push({name: 'dashboard'})   
+    })
+    .catch(({response}) => {
+      errorMsg.value = response.data.message
+    })
+  }
 </script>
 
 <template>
@@ -32,12 +53,13 @@
                 </button>
               </div> -->
               <hr class="mt-6 border-b-1 border-slate-300" />
+              <div class="text-center text-red-600">{{ errorMsg }}</div>
             </div>
             <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
               <!-- <div class="text-slate-400 text-center mb-3 font-bold">
                 <small>Or sign in with credentials</small>
               </div> -->
-              <form>
+              <form @submit.prevent="login">
                 <div class="relative w-full mb-3">
                   <label
                     class="block uppercase text-slate-600 text-xs font-bold mb-2"
@@ -49,6 +71,7 @@
                     type="email"
                     class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Email"
+                    v-model="formData.email"
                   />
                 </div>
   
@@ -63,6 +86,7 @@
                     type="password"
                     class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Password"
+                    v-model="formData.password"
                   />
                 </div>
                 <!-- <div>
@@ -81,7 +105,7 @@
                 <div class="text-center mt-6">
                   <button
                     class="bg-slate-700 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
+                    
                   >
                     Sign In
                   </button>

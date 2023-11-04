@@ -1,9 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import { useUserStore } from '../stores/user'
 
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-
 import Dashboard from '../views/Dashboard.vue'
+import Unauthorized from '../views/Unauthorized.vue'
+
 
 
 const routes = [
@@ -11,21 +13,27 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
-        meta: {requiresAuth: false}
+        meta: {requireAuth: false}
     },
     {
         path: '/register',
         name: '/register',
         component: Register,
-        meta: {requiresAuth: false}
-
+        meta: {requireAuth: false}
+    },
+    {
+        path: '/unauthorized',
+        name: 'unauthorized',
+        component: Unauthorized,
+        meta: {requireAuth: true}
     },
     {
         path: '/',
         name: 'dashboard',
         component: Dashboard,
-        meta: {requiresAuth: true},
+        meta: {requireAuth: true}
     },
+    
     
 ]
 
@@ -35,7 +43,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-    if (to.meta.requiresAuth) {
+    const userStore = useUserStore()
+    if(!userStore.user.token && to.meta.requireAuth) {
         return {name: 'login'}
     }
 })
