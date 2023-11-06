@@ -1,5 +1,5 @@
 <script setup>
-
+import UserDrodown from '../Dropdowns/UserDrodown.vue';
 </script>
 
 <template>
@@ -23,20 +23,20 @@
       >
         <div class="relative flex w-full flex-wrap items-stretch">
           <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+            class="z-10 h-full leading-snug font-normal absolute text-center text-slate-300  bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
           >
             <i class="fas fa-search"></i>
           </span>
           <input
             type="text"
             placeholder="Search here..."
-            class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
+            class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-whit rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
           />
         </div>
       </form>
       <!-- User -->
       <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
-        User
+        <UserDrodown></UserDrodown>
       </ul>
     </div>
   </nav>

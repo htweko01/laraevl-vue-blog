@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import { useUserStore } from '../stores/user';
   import {useRouter} from 'vue-router'
-  // import router from '../router'
+
 
   const router = useRouter()
   const user = useUserStore();
