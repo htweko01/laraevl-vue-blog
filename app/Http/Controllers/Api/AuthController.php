@@ -18,6 +18,12 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $fields['email'])->first();
+
+        if ($user->role != 'admin') {
+            return response([
+                'message' => "You Don't have permission (not an admin)",
+            ], 403);
+        }
         
         if(!$user) {
             return response([

@@ -5,7 +5,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Unauthorized from '../views/Unauthorized.vue'
-
+import CategoryList from '../views/category/CategoryList.vue'
 
 
 const routes = [
@@ -33,6 +33,12 @@ const routes = [
         component: Dashboard,
         meta: {requireAuth: true}
     },
+    {
+        path: '/categories',
+        name: 'category.list',
+        component: CategoryList,
+        meta: {requireAuth: true}
+    }
     
     
 ]
