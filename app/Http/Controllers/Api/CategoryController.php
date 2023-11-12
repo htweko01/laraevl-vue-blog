@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -19,10 +20,7 @@ class CategoryController extends Controller
     }
 
     public function create(Request $request) {
-        $category = $request->validate([
-            'name' => 'required|min:3',
-            'slug' => 'required'
-        ]);
+        $category = $this->validateCategory($request);
 
         Category::create($category);
         return response([
@@ -31,10 +29,8 @@ class CategoryController extends Controller
     }
 
     public function edit(Request $request, Category $category) {
-        $fields = $request->validate([
-            'name' => 'required|min:3',
-            'slug' => 'required'
-        ]);
+
+        $fields = $this->validateCategory($request, $category->id);
 
         $category->update($fields);
         return response([
@@ -43,10 +39,22 @@ class CategoryController extends Controller
     }
 
     public function delete(Category $category) {
+
         $category->delete();
         return response([
             'message' => "Delete Success",
         ], 200);
+    }   
+
+    private function validateCategory($request, $id = null) {
+        return Validator::make($request->all(), [
+            'name' => 'required|min:3|unique:categories,name,'. $id,
+            'slug' => 'required|min:3|unique:categories,slug,' . $id,
+            
+        ], [
+            'name.required' => "Category Name is required",
+            'slug.required' => "Category Slug is required"
+        ])->validate();
     }
 
 }
