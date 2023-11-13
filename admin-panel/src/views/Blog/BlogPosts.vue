@@ -1,28 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import AdminLayout from "../../components/AdminLayout.vue";
-import CreateCategory from "../../components/Modals/Category/CreateCategory.vue";
-import DeleteCategory from "../../components/Modals/Category/DeleteCategory.vue";
-import EditCategory from "../../components/Modals/Category/EditCategory.vue";
 
 import { useCategoryStore } from "../../stores/category";
-
 const store = useCategoryStore();
-const deleteModal = ref(null);
-const editModal = ref(null);
-
-function showDeleteModal(id) {
-    deleteModal.value.open = true;
-    deleteModal.value.id = id;
-}
-
-function showEditModal({ id, name, slug }) {
-    editModal.value.isOpen = true;
-    editModal.value.category.name = name;
-    editModal.value.category.slug = slug;
-    editModal.value.category.id = id;
-}
-
 onMounted(() => {
     store.getCategories();
 });
@@ -32,9 +13,15 @@ onMounted(() => {
     <AdminLayout>
         <div class="flex justify-between mb-5">
             <h1 class="text-3xl font-bold text-gray-600 items-center">
-                Categories
+                Blog Posts
             </h1>
-            <CreateCategory></CreateCategory>
+            <router-link to="/blogs/create"
+                ><span
+                    class="rounded-md bg-blue-700 px-4 py-2 text-xl font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+                >
+                    Write Blog
+                </span></router-link
+            >
         </div>
 
         <!-- category table -->
@@ -79,12 +66,12 @@ onMounted(() => {
                         </td>
                         <td class="px-6 py-4 text-right">
                             <a
-                                @click="showEditModal(category)"
+                                @click=""
                                 class="mr-3 font-medium text-blue-600 hover:underline"
                                 >Edit</a
                             >
                             <a
-                                @click="showDeleteModal(category.id)"
+                                @click=""
                                 class="font-medium text-red-600 hover:underline"
                                 >Delete</a
                             >
@@ -93,8 +80,5 @@ onMounted(() => {
                 </tbody>
             </table>
         </div>
-        <!-- end category table -->
-        <DeleteCategory ref="deleteModal"></DeleteCategory>
-        <EditCategory ref="editModal"></EditCategory>
     </AdminLayout>
 </template>

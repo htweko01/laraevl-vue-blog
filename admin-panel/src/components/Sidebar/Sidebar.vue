@@ -1,4 +1,5 @@
 <script setup>
+import SidebarLink from './SidebarLink.vue'
 
 </script>
 
@@ -43,53 +44,14 @@
   
           <ul class="md:flex-col md:min-w-full flex flex-col list-none">
             <li class="items-center">
-              <router-link
-                to="/"
-                v-slot="{ href, navigate, isActive }"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-xs uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-emerald-500 hover:text-emerald-600'
-                      : 'text-slate-700 hover:text-slate-500',
-                  ]"
-                >
-                  <i
-                    class="fas fa-tv mr-2 text-sm"
-                    :class="[isActive ? 'opacity-75' : 'text-slate-300']"
-                  ></i>
-                  Dashboard
-                </a>
-              </router-link>
+              <SidebarLink uri="/" icon="fas fa-tv mr-2" name="Dashboard"></SidebarLink>
             </li>
             <li class="items-center">
-              <router-link
-                to="/categories"
-                v-slot="{ href, navigate, isActive }"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-xs uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-emerald-500 hover:text-emerald-600'
-                      : 'text-slate-700 hover:text-slate-500',
-                  ]"
-                >
-                  <i
-                    class="fa-solid fa-folder-tree mr-2 text-sm"
-                    :class="[isActive ? 'opacity-75' : 'text-slate-300']"
-                  ></i>
-                  Categories
-                </a>
-              </router-link>
+              <SidebarLink uri="/categories" name="Categories" icon="fa-solid fa-folder-tree"></SidebarLink>
             </li>
-  
-            
+            <li class="items-center">
+              <SidebarLink uri="/blogs" name="Blog Post" icon="fab fa-blogger-b"></SidebarLink>
+            </li>
           </ul>
   
           

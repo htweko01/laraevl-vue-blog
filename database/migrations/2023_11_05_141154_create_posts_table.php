@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('slug');
             $table->string('image')->nullable();
             $table->longText('body');
-            $table->boolean('active');
-            $table->datetime('published_at');
+            $table->boolean('active')->default();
+            $table->datetime('published_at')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignId('edited_by')->references('id')->on('users');
             $table->timestamps();

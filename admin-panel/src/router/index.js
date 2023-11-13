@@ -7,6 +7,10 @@ import Dashboard from '../views/Dashboard.vue'
 import Unauthorized from '../views/Unauthorized.vue'
 import CategoryList from '../views/category/CategoryList.vue'
 
+import BlogPosts from '../views/Blog/BlogPosts.vue'
+import BlogPost from '../views/Blog/BlogPost.vue'
+import CreateBlog from '../views/Blog/CreateBlog.vue'
+
 
 const routes = [
     {
@@ -38,7 +42,25 @@ const routes = [
         name: 'category.list',
         component: CategoryList,
         meta: {requireAuth: true}
-    }
+    },
+    {
+        path: '/blogs',
+        name: 'blog.list',
+        component: BlogPosts,
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/blogs/edit',
+        name: 'blog.edit',
+        component: BlogPost,
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/blogs/create',
+        name: 'blog.main',
+        component: CreateBlog,
+        meta: {requireAuth: true}
+    },
     
     
 ]
