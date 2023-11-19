@@ -25,13 +25,16 @@
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
     "axios": "^1.6.0",
+    "dayjs": "^1.11.10",
     "pinia": "^2.1.7",
     "remixicon": "^3.5.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
-    "vue-suglify": "^1.0.14"
+    "vue-suglify": "^1.0.14",
+    "vue-tailwind-datepicker": "^1.6.1"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",

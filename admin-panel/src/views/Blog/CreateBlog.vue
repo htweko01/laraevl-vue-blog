@@ -1,11 +1,15 @@
 <script setup>
 import AdminLayout from "../../components/AdminLayout.vue";
-import Editor from "../../components/Inputs/Editor/Editor.vue";
+import BlogPost from "./BlogPost.vue";
 </script>
 
 <template>
-    <AdminLayout>
-        <h1>Create Blog</h1>
-        <Editor></Editor>
+    <AdminLayout class="">
+        <div class="flex justify-between mb-5">
+            <h1 class="text-3xl font-bold text-gray-600 items-center">
+                Create Blog
+            </h1>
+        </div>
+        <BlogPost></BlogPost>
     </AdminLayout>
 </template>

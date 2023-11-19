@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-5">
+        <div class="">
             <div class="editor" v-if="editor">
                 <menu-bar class="editor__header" :editor="editor" />
                 <editor-content
@@ -26,13 +26,36 @@ export default {
         EditorContent,
         MenuBar,
     },
+    props: {
+        modelValue: {
+            type: String,
+            default: "",
+        },
+    },
+    emits: ["update:modelValue"],
     data() {
         return {
             provider: null,
             editor: null,
             status: "connecting",
-            content: "HI",
+            content: this.modelValue,
         };
+    },
+    watch: {
+        modelValue(value) {
+            // HTML
+            const isSame = this.editor.getHTML() === value;
+
+            // JSON
+            // const isSame =
+            //     JSON.stringify(this.editor.getJSON()) === JSON.stringify(value);
+
+            if (isSame) {
+                return;
+            }
+
+            this.editor.commands.setContent(value, false);
+        },
     },
     mounted() {
         this.editor = new Editor({
@@ -45,8 +68,18 @@ export default {
                 TaskItem,
                 History,
             ],
-            content: "HI",
+            content: this.modelValue,
+            onUpdate: () => {
+                // HTML
+                this.$emit("update:modelValue", this.editor.getHTML());
+
+                // JSON
+                // this.$emit('update:modelValue', this.editor.getJSON())
+            },
         });
+    },
+    beforeUnmount() {
+        this.editor.destroy();
     },
 };
 </script>

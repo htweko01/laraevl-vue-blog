@@ -1,82 +1,77 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "../stores/user";
 
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import Dashboard from '../views/Dashboard.vue'
-import Unauthorized from '../views/Unauthorized.vue'
-import CategoryList from '../views/category/CategoryList.vue'
+import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
+import Dashboard from "../views/Dashboard.vue";
+import Unauthorized from "../views/Unauthorized.vue";
+import CategoryList from "../views/category/CategoryList.vue";
 
-import BlogPosts from '../views/Blog/BlogPosts.vue'
-import BlogPost from '../views/Blog/BlogPost.vue'
-import CreateBlog from '../views/Blog/CreateBlog.vue'
-
+import BlogPosts from "../views/Blog/BlogPosts.vue";
+import CreateBlog from "../views/Blog/CreateBlog.vue";
+import EditBlog from "../views/Blog/EditBlog.vue";
 
 const routes = [
     {
-        path: '/login',
-        name: 'login',
+        path: "/login",
+        name: "login",
         component: Login,
-        meta: {requireAuth: false}
+        meta: { requireAuth: false },
     },
     {
-        path: '/register',
-        name: '/register',
+        path: "/register",
+        name: "/register",
         component: Register,
-        meta: {requireAuth: false}
+        meta: { requireAuth: false },
     },
     {
-        path: '/unauthorized',
-        name: 'unauthorized',
+        path: "/unauthorized",
+        name: "unauthorized",
         component: Unauthorized,
-        meta: {requireAuth: true}
+        meta: { requireAuth: true },
     },
     {
-        path: '/',
-        name: 'dashboard',
+        path: "/",
+        name: "dashboard",
         component: Dashboard,
-        meta: {requireAuth: true}
+        meta: { requireAuth: true },
     },
     {
-        path: '/categories',
-        name: 'category.list',
+        path: "/categories",
+        name: "category.list",
         component: CategoryList,
-        meta: {requireAuth: true}
+        meta: { requireAuth: true },
     },
     {
-        path: '/blogs',
-        name: 'blog.list',
+        path: "/blogs",
+        name: "blog.list",
         component: BlogPosts,
-        meta: {requireAuth: true}
+        meta: { requireAuth: true },
     },
     {
-        path: '/blogs/edit',
-        name: 'blog.edit',
-        component: BlogPost,
-        meta: {requireAuth: true}
+        path: "/blogs/edit",
+        name: "blog.edit",
+        component: EditBlog,
+        meta: { requireAuth: true },
     },
     {
-        path: '/blogs/create',
-        name: 'blog.main',
+        path: "/blogs/create",
+        name: "blog.main",
         component: CreateBlog,
-        meta: {requireAuth: true}
+        meta: { requireAuth: true },
     },
-    
-    
-]
+];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-})
+});
 
 router.beforeEach((to, from) => {
-    const userStore = useUserStore()
-    if(!userStore.user.token && to.meta.requireAuth) {
-        return {name: 'login'}
+    const userStore = useUserStore();
+    if (!userStore.user.token && to.meta.requireAuth) {
+        return { name: "login" };
     }
-})
+});
 
-
-
-export default router
+export default router;
