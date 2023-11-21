@@ -12,6 +12,27 @@ const post = ref({
     active: false,
 });
 
+const previewImageURL = ref("");
+
+function fileChange(event) {
+    post.value.image = event.target.files[0];
+    readFile(post.value.image).then((url) => {
+        previewImageURL.value = url;
+    });
+}
+
+// read image file
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.onerror = reject;
+    });
+}
+
 watch(
     () => post.value.title,
     (newTitle) => {
@@ -91,12 +112,16 @@ function create() {
                 >Image</label
             >
             <div class="flex items-center justify-center">
-                <label
-                    for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                >
+                <label for="dropzone-file" class="w-full">
+                    <img
+                        v-if="previewImageURL"
+                        :src="previewImageURL"
+                        alt="Image"
+                        class="h-full"
+                    />
                     <div
-                        class="flex flex-col items-center justify-center pt-5 pb-6"
+                        v-else
+                        class="pt-5 pb-6 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
                         <svg
                             class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -123,7 +148,12 @@ function create() {
                             SVG, PNG, JPG (MAX. 800x400px)
                         </p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
+                    <input
+                        id="dropzone-file"
+                        type="file"
+                        class="hidden"
+                        @change="fileChange"
+                    />
                 </label>
             </div>
         </div>
