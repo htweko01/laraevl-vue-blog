@@ -18,6 +18,7 @@ import Highlight from "@tiptap/extension-highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 // Need to install this
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import MenuBar from "./MenuBar.vue";
@@ -62,6 +63,9 @@ export default {
             extensions: [
                 StarterKit.configure({
                     history: false,
+                }),
+                Placeholder.configure({
+                    placeholder: "Write something ...",
                 }),
                 Highlight,
                 TaskList,
@@ -176,6 +180,15 @@ export default {
             }
         }
     }
+}
+
+/* Placeholder (at the top) */
+.tiptap p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    height: 0;
 }
 
 /* Give a remote user a caret */

@@ -14,23 +14,20 @@ import { useCategoryStore } from "../../../stores/category";
 import router from "../../../router";
 
 const default_value = {
-    name: '',
-    slug: ''
-}
+    name: "",
+    slug: "",
+};
 
 const category = reactive({
     id: null,
-    ...default_value
+    ...default_value,
 });
 
-
-
-const errorMsgs = ref({...default_value})
+const errorMsgs = ref({ ...default_value });
 
 const categoryStore = useCategoryStore();
 
 const edit = () => {
-    console.log(category)
     categoryStore
         .edit(
             {
@@ -41,11 +38,13 @@ const edit = () => {
         )
         .then(() => {
             categoryStore.getCategories();
-            closeModal()
+            closeModal();
         })
-        .catch(({response: {data}}) => {
-            errorMsgs.value.name = 'name' in data.errors ? data.errors.name[0] : ''
-            errorMsgs.value.slug = 'slug' in data.errors ? data.errors.slug[0] : ''
+        .catch(({ response: { data } }) => {
+            errorMsgs.value.name =
+                "name" in data.errors ? data.errors.name[0] : "";
+            errorMsgs.value.slug =
+                "slug" in data.errors ? data.errors.slug[0] : "";
         });
 };
 
@@ -53,7 +52,7 @@ const isOpen = ref(false);
 
 function closeModal() {
     isOpen.value = false;
-    errorMsgs.value = {...default_value}
+    errorMsgs.value = { ...default_value };
 }
 
 watch(

@@ -1,6 +1,10 @@
 <script setup>
 import AdminLayout from "../../components/AdminLayout.vue";
 import BlogPost from "./BlogPost.vue";
+
+function createBlog(post) {
+    console.log(post);
+}
 </script>
 
 <template>
@@ -10,6 +14,6 @@ import BlogPost from "./BlogPost.vue";
                 Create Blog
             </h1>
         </div>
-        <BlogPost></BlogPost>
+        <BlogPost @action="createBlog" action-type="Create"></BlogPost>
     </AdminLayout>
 </template>

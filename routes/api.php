@@ -22,11 +22,11 @@ Route::middleware(['auth:sanctum'])->group(function() {
     });
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::controller(CategoryController::class)->prefix('category')->group(function() {
-        Route::get('/list', 'categories')->name('category.list');
-        Route::post('/create', 'create')->name('category.create');
-        Route::post('/edit/{category}', 'edit')->name('category.edit');
-        Route::get('/delete/{category}', 'delete')->name('category.delete');
+    Route::controller(CategoryController::class)->prefix('categories')->group(function() {
+        Route::get('/', 'categories')->name('category.list');
+        Route::post('/', 'create')->name('category.create');
+        Route::put('/{category}', 'edit')->name('category.edit');
+        Route::delete('/{category}', 'delete')->name('category.delete');
     });
 });
 

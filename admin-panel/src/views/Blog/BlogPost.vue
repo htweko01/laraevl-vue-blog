@@ -3,6 +3,14 @@ import { ref, watch } from "vue";
 import AdminLayout from "../../components/AdminLayout.vue";
 import Editor from "../../components/Inputs/Editor/Editor.vue";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
+
+const props = defineProps({
+    post: Object,
+    actionType: String,
+});
+
+const emit = defineEmits(["action"]);
+
 const post = ref({
     title: "",
     slug: "",
@@ -19,6 +27,10 @@ function fileChange(event) {
     readFile(post.value.image).then((url) => {
         previewImageURL.value = url;
     });
+}
+
+function create() {
+    emit("action", post.value);
 }
 
 // read image file
@@ -43,10 +55,6 @@ watch(
             .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
     }
 );
-
-function create() {
-    console.log(post);
-}
 </script>
 
 <template>
@@ -112,17 +120,20 @@ function create() {
                 >Image</label
             >
             <div class="flex items-center justify-center">
-                <label for="dropzone-file" class="w-full">
+                <label
+                    for="dropzone-file"
+                    :class="{
+                        'pt-5 pb-6 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600':
+                            !previewImageURL,
+                    }"
+                >
                     <img
                         v-if="previewImageURL"
                         :src="previewImageURL"
                         alt="Image"
-                        class="h-full"
+                        class="h-full cursor-pointer"
                     />
-                    <div
-                        v-else
-                        class="pt-5 pb-6 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                    >
+                    <div v-else class="">
                         <svg
                             class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                             aria-hidden="true"
@@ -152,6 +163,7 @@ function create() {
                         id="dropzone-file"
                         type="file"
                         class="hidden"
+                        accept="image/*"
                         @change="fileChange"
                     />
                 </label>
@@ -179,7 +191,7 @@ function create() {
                 class="px-10 py-3 bg-green-600 text-white rounded-md"
                 @click="create"
             >
-                Create
+                {{ actionType }}
             </button>
         </div>
     </div>

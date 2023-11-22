@@ -9,59 +9,60 @@ import {
     DialogTitle,
 } from "@headlessui/vue";
 
-
-
-
 // create category
-import {useCategoryStore} from '../../../stores/category'
+import { useCategoryStore } from "../../../stores/category";
 const default_value = {
-    name: '',
-    slug: ''
-}
-const category = reactive({...default_value})
-const errors = ref({...default_value})
+    name: "",
+    slug: "",
+};
+const category = reactive({ ...default_value });
+const errors = ref({ ...default_value });
 
-const store = useCategoryStore()
+const store = useCategoryStore();
 
 const create = () => {
-    store.create({
-        name: category.name,
-        slug: category.slug
-    }).then(() => {
-        store.getCategories()
-        closeModal()
-    }).catch(({response: {data}}) => {
-            errors.value.name = 'name' in data.errors ? data.errors.name[0] : ''
-            errors.value.slug = 'slug' in data.errors ? data.errors.slug[0] : ''
-    })
-}
+    store
+        .create({
+            name: category.name,
+            slug: category.slug,
+        })
+        .then(() => {
+            store.getCategories();
+            closeModal();
+        })
+        .catch(({ response: { data } }) => {
+            errors.value.name =
+                "name" in data.errors ? data.errors.name[0] : "";
+            errors.value.slug =
+                "slug" in data.errors ? data.errors.slug[0] : "";
+        });
+};
 
 const isOpen = ref(false);
 
 function closeModal() {
     isOpen.value = false;
-    category.name = ''
-    category.slug = ''
-    errors.value = {...default_value}
+    category.name = "";
+    category.slug = "";
+    errors.value = { ...default_value };
 }
 function openModal() {
     isOpen.value = true;
 }
 
-
-watch(() => category.name, 
-(newName) => {
-    category.slug = newName
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, '-')
-        .replace(/-+/g, '-') // Replace consecutive hyphens with a single hyphen
-        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens 
-})
-
+watch(
+    () => category.name,
+    (newName) => {
+        category.slug = newName
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "-")
+            .replace(/-+/g, "-") // Replace consecutive hyphens with a single hyphen
+            .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+    }
+);
 </script>
 
 <template>
-
     <div class="">
         <button
             type="button"
@@ -114,8 +115,8 @@ watch(() => category.name,
                                         <label
                                             for="name"
                                             class="block text-sm font-medium leading-6 text-gray-900 mb-2"
-                                            >Category Name </label
-                                        >
+                                            >Category Name
+                                        </label>
                                         <input
                                             type="text"
                                             class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -123,23 +124,26 @@ watch(() => category.name,
                                             v-model="category.name"
                                             placeholder="Category Name"
                                         />
-                                        <div class="text-red-400">{{ errors.name }}</div>
+                                        <div class="text-red-400">
+                                            {{ errors.name }}
+                                        </div>
                                     </div>
                                     <div class="mb-6">
                                         <label
                                             for="slug"
                                             class="block text-sm font-medium leading-6 text-gray-900 mb-2"
-                                            >Category Slug </label
-                                        >
-                                            <input
-                                                type="text"
-                                                class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                id="slug"
-                                                v-model="category.slug"
-                                                placeholder="Slug"
-                                            />
-                                            <div class="text-red-400">{{ errors.slug }}</div>
-                                        
+                                            >Category Slug
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            id="slug"
+                                            v-model="category.slug"
+                                            placeholder="Slug"
+                                        />
+                                        <div class="text-red-400">
+                                            {{ errors.slug }}
+                                        </div>
                                     </div>
                                     <div class="mt-4 flex justify-end">
                                         <button
@@ -151,7 +155,7 @@ watch(() => category.name,
                                         </button>
                                         <button
                                             type="button"
-                                            class=" justify-center rounded-md border border-transparent bg-green-600 px-6 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            class="justify-center rounded-md border border-transparent bg-green-600 px-6 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                             @click="create"
                                         >
                                             Create
@@ -166,5 +170,3 @@ watch(() => category.name,
         </Dialog>
     </TransitionRoot>
 </template>
-
-
