@@ -15,7 +15,7 @@ class Post extends Model
         'image',
         'body',
         'active',
-        'user_id',
+        'created_by',
         'published_at',
         'edited_by',
     ];

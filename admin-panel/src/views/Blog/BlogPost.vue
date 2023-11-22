@@ -133,7 +133,10 @@ watch(
                         alt="Image"
                         class="h-full cursor-pointer"
                     />
-                    <div v-else class="">
+                    <div
+                        v-else
+                        class="flex flex-col items-center justify-center"
+                    >
                         <svg
                             class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                             aria-hidden="true"
@@ -156,14 +159,14 @@ watch(
                             or drag and drop
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG (MAX. 800x400px)
+                            PNG, JPG ,JPEG
                         </p>
                     </div>
                     <input
                         id="dropzone-file"
                         type="file"
                         class="hidden"
-                        accept="image/*"
+                        accept=".jpg, .png, .jpeg"
                         @change="fileChange"
                     />
                 </label>
