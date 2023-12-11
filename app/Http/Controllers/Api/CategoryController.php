@@ -14,9 +14,10 @@ class CategoryController extends Controller
     //
     public function categories() {
         $categories = Category::all();
-        return response([
-            'categories' => $categories,
-        ], 200);
+        return $categories;
+        // return response([
+        //     'categories' => $categories,
+        // ], 200);
     }
 
     public function create(Request $request) {

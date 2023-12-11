@@ -1,11 +1,32 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import AdminLayout from "../../components/AdminLayout.vue";
+import DeleteModal from "../../components/Modals/DeleteModal.vue";
 
-import { useCategoryStore } from "../../stores/category";
-const store = useCategoryStore();
+import { usePostStore } from "../../stores/post";
+const store = usePostStore();
+
+const deleteModal = ref(null);
+
+function showDeleteModal(id) {
+    deleteModal.value.open = true;
+    deleteModal.value.id = id;
+}
+
+function deletePost(id) {
+    store
+        .deletePost(id)
+        .then(() => {
+            store.getPosts();
+            deleteModal.value.open = false;
+        })
+        .catch((response) => {
+            console.log(response);
+        });
+}
+
 onMounted(() => {
-    store.getCategories();
+    store.getPosts();
 });
 </script>
 
@@ -15,7 +36,7 @@ onMounted(() => {
             <h1 class="text-3xl font-bold text-gray-600 items-center">
                 Blog Posts
             </h1>
-            <router-link to="/blogs/create"
+            <router-link to="/posts/create"
                 ><span
                     class="rounded-md bg-blue-700 px-4 py-2 text-xl font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
                 >
@@ -24,13 +45,13 @@ onMounted(() => {
             >
         </div>
 
-        <!-- category table -->
+        <!-- post table -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div
                 class="w-full text-lg text-center py-20"
-                v-if="store.categories.length == 0"
+                v-if="store.posts.length == 0"
             >
-                No Category Found
+                No Post Found
             </div>
             <table
                 v-else
@@ -41,7 +62,7 @@ onMounted(() => {
                 >
                     <tr>
                         <th class="px-3">ID</th>
-                        <th scope="col" class="px-6 py-3">Category name</th>
+                        <th scope="col" class="px-6 py-3">post name</th>
                         <th>Slug</th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
@@ -51,18 +72,18 @@ onMounted(() => {
                 <tbody>
                     <tr
                         class="bg-white border-b hover:bg-gray-50"
-                        v-for="(category, index) in store.categories"
+                        v-for="(post, index) in store.posts"
                         :key="index"
                     >
-                        <td class="px-3">{{ category.id }}</td>
+                        <td class="px-3">{{ post.id }}</td>
                         <th
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                         >
-                            {{ category.name }}
+                            {{ post.title }}
                         </th>
                         <td>
-                            {{ category.slug }}
+                            {{ post.slug }}
                         </td>
                         <td class="px-6 py-4 text-right">
                             <a
@@ -71,7 +92,7 @@ onMounted(() => {
                                 >Edit</a
                             >
                             <a
-                                @click=""
+                                @click="showDeleteModal(post.id)"
                                 class="font-medium text-red-600 hover:underline"
                                 >Delete</a
                             >
@@ -80,5 +101,10 @@ onMounted(() => {
                 </tbody>
             </table>
         </div>
+        <DeleteModal
+            ref="deleteModal"
+            @delete="deletePost"
+            type="Post"
+        ></DeleteModal>
     </AdminLayout>
 </template>

@@ -2,7 +2,8 @@
 import { ref, onMounted } from "vue";
 import AdminLayout from "../../components/AdminLayout.vue";
 import CreateCategory from "../../components/Modals/Category/CreateCategory.vue";
-import DeleteCategory from "../../components/Modals/Category/DeleteCategory.vue";
+// import DeleteCategory from "../../components/Modals/Category/DeleteCategory.vue";
+import DeleteModal from "../../components/Modals/DeleteModal.vue";
 import EditCategory from "../../components/Modals/Category/EditCategory.vue";
 
 import { useCategoryStore } from "../../stores/category";
@@ -14,6 +15,13 @@ const editModal = ref(null);
 function showDeleteModal(id) {
     deleteModal.value.open = true;
     deleteModal.value.id = id;
+}
+
+function deleteCategory(id) {
+    store.deleteCategory(id).then(() => {
+        store.getCategories();
+        deleteModal.value.open = false;
+    });
 }
 
 function showEditModal({ id, name, slug }) {
@@ -94,7 +102,11 @@ onMounted(() => {
             </table>
         </div>
         <!-- end category table -->
-        <DeleteCategory ref="deleteModal"></DeleteCategory>
+        <DeleteModal
+            ref="deleteModal"
+            @delete="deleteCategory"
+            type="Category"
+        ></DeleteModal>
         <EditCategory ref="editModal"></EditCategory>
     </AdminLayout>
 </template>

@@ -6,12 +6,9 @@ export const useCategoryStore = defineStore("category", () => {
     const categories = ref([]);
 
     async function getCategories() {
-        // axios.get('/category/list').then(({data}) => {
-        //     categories.value = data.categories
-        //     console.log(data)
-        // })
         const { data } = await axios.get("/categories");
-        categories.value = data.categories;
+        categories.value = data;
+        return categories.value;
     }
 
     function create(category) {

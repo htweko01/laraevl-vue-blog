@@ -14,6 +14,7 @@ class PostCategory extends Model
     use HasFactory;
 
     protected $fillable = ['category_id', 'post_id'];
+    protected $table = 'post_category';
 
     public function user():BelongsTo
     {

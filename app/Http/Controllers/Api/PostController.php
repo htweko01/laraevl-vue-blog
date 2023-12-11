@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PostCategory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,18 +13,27 @@ class PostController extends Controller
 {
     //
     public function index() {
-        $posts = Post::where('active', 'true')->get();
+        $posts = Post::all();
         return $posts;
     }
 
     public function create(Request $request) {
+
         $post = $this->validatePost($request);
         $post['created_by'] = $request->user()->id;
-        if($request->hasFile('image')) {
+        $post['published_at'] = $request->publishedAt;
+        if($request->file('image')) {
             $post['image'] = $this->storeImage($request->file('image'));
         }
 
-        Post::create($post);
+        $post = Post::create($post);
+
+        foreach($request->categories as $category) {
+            PostCategory::create([
+                'category_id' => $category,
+                'post_id' => $post->id,
+            ]);
+        }
 
         return response([
             'message' => "Post Create Success",
@@ -70,7 +80,7 @@ class PostController extends Controller
     }
 
     // store post image
-    private function storeImage($image , $action = 'create') {
+    private function storeImage($image) {
         $imgName = uniqid() . '__' . $image->getClientOriginalName();
         $image->storeAs('public/images/posts', $imgName);
         return $imgName;

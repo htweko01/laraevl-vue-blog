@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     });
 
     // Blog Post
-    Route::controller(PostController::class)->prefix('posts')->name(function() {
+    Route::controller(PostController::class)->prefix('posts')->group(function() {
         Route::get('/', 'index');
         Route::post('/', 'create');
         Route::put('/{post}', 'edit');
