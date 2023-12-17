@@ -86,11 +86,20 @@ onMounted(() => {
                             {{ post.slug }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a
+                            <!-- <a
                                 @click=""
                                 class="mr-3 font-medium text-blue-600 hover:underline"
                                 >Edit</a
+                            > -->
+                            <router-link
+                                :to="{
+                                    name: 'post.edit',
+                                    params: { slug: post.slug },
+                                }"
+                                class="mr-3 font-medium text-blue-600 hover:underline"
                             >
+                                Edit
+                            </router-link>
                             <a
                                 @click="showDeleteModal(post.id)"
                                 class="font-medium text-red-600 hover:underline"

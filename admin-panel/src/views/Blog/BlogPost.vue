@@ -6,12 +6,18 @@ import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Multiselect from "@vueform/multiselect";
 
 import { useCategoryStore } from "../../stores/category";
+import { usePostStore } from "../../stores/post";
+
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const categoryStore = useCategoryStore();
+const postStore = usePostStore();
 
 const props = defineProps({
     post: Object,
     actionType: String,
+    postSlug: String,
 });
 
 const emit = defineEmits(["action"]);
@@ -49,6 +55,23 @@ function readFile(file) {
     });
 }
 
+function save() {
+    if (!post.value.id) {
+        postStore
+            .create(post.value)
+            .then((response) => {
+                router.push({ name: "post.list" });
+            })
+            .catch((response) => {
+                console.log(response);
+            });
+    } else {
+        postStore.editPost(post.value, post.value.id).then((response) => {
+            router.push({ name: "post.list" });
+        });
+    }
+}
+
 watch(
     () => post.value.title,
     (newTitle) => {
@@ -74,11 +97,21 @@ function disableDate(date) {
 
 onMounted(() => {
     getCategoryOptions();
+    if (props.postSlug) {
+        postStore.getPost(props.postSlug).then(({ data }) => {
+            post.value = { ...data.post };
+            if (post.value.image) {
+                previewImageURL.value =
+                    "http://localhost:8000/storage/images/posts/" +
+                    post.value.image;
+            }
+        });
+    }
 });
 </script>
 
 <template>
-    <form @submit.prevent="$emit('action', post)" enctype="multipart/form-data">
+    <form @submit.prevent="save" enctype="multipart/form-data">
         <div class="bg-white p-3 mx-auto rounded-md shadow-sm lg:w-11/12">
             <div class="lg:flex mb-6">
                 <div class="mx-3 mb-3 basis-1/2">

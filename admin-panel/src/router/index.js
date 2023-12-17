@@ -49,7 +49,7 @@ const routes = [
         meta: { requireAuth: true },
     },
     {
-        path: "/posts/edit",
+        path: "/posts/edit/:slug",
         name: "post.edit",
         component: EditBlog,
         meta: { requireAuth: true },

@@ -10,18 +10,40 @@ export const usePostStore = defineStore("post", () => {
         posts.value = data;
     }
 
+    function getPost(slug) {
+        return axios.get(`posts/${slug}`);
+    }
+
     function create(post) {
         const config = {
             headers: {
                 "content-type": "multipart/form-data",
             },
         };
+
         return axios.post("/posts", post, config);
+    }
+
+    function editPost(post, id) {
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        };
+
+        return axios.post(
+            `/posts/${id}`,
+            {
+                ...post,
+                _method: "put",
+            },
+            config
+        );
     }
 
     function deletePost(post) {
         return axios.delete(`/posts/${post}`);
     }
 
-    return { getPosts, posts, create, deletePost };
+    return { getPosts, getPost, editPost, posts, create, deletePost };
 });

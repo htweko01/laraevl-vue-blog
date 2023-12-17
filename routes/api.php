@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     // Blog Post
     Route::controller(PostController::class)->prefix('posts')->group(function() {
         Route::get('/', 'index');
+        Route::get('/{slug}', 'show');
         Route::post('/', 'create');
         Route::put('/{post}', 'edit');
         Route::delete('/{post}', 'delete');
