@@ -64,6 +64,8 @@ onMounted(() => {
                         <th class="px-3">ID</th>
                         <th scope="col" class="px-6 py-3">post name</th>
                         <th>Slug</th>
+                        <th>Created By</th>
+                        <th>Edited By</th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
                         </th>
@@ -85,6 +87,8 @@ onMounted(() => {
                         <td>
                             {{ post.slug }}
                         </td>
+                        <td>{{ post.createdBy }}</td>
+                        <td>{{ post.editedBy }}</td>
                         <td class="px-6 py-4 text-right">
                             <!-- <a
                                 @click=""

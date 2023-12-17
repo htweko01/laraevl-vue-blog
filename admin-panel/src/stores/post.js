@@ -7,7 +7,7 @@ export const usePostStore = defineStore("post", () => {
 
     async function getPosts() {
         const { data } = await axios.get("/posts");
-        posts.value = data;
+        posts.value = data.data;
     }
 
     function getPost(slug) {

@@ -27,7 +27,9 @@ class PostResource extends JsonResource
             'categories' => $this->categories()->pluck('categories.id'),
             'active' => $this->active != 0,
             'publishedAt' => $this->published_at ? : '',
-        ];
+            'createdBy' => $this->createdBy->name,
+            'editedBy' => $this->editedBy->name,
+         ];
         // return parent::toArray($request);
     }
 }

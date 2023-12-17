@@ -15,7 +15,7 @@ class PostController extends Controller
     // get a list of posts
     public function index() {
         $posts = Post::all();
-        return $posts;
+        return PostResource::collection($posts);
     }
 
     // get a specified post
