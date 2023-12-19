@@ -28,7 +28,9 @@ class PostController extends Controller
 
         $post = $this->validatePost($request);
         $post['user_id'] = $request->user()->id;
+        $post['edited_by'] = $request->user()->id;
         $post['published_at'] = $request->publishedAt;
+        $post['active'] = $request->active == 'true' ? 1 : 0;
         if($request->file('image')) {
             $post['image'] = $this->storeImage($request->file('image'));
         }
@@ -51,6 +53,7 @@ class PostController extends Controller
         $data = $this->validatePost($request, $post->id);
         $data['edited_by'] = $request->user()->id;
         $data['published_at'] = $request->publishedAt;
+        $data['active'] = $request->active == 'true' ? 1 : 0;
         if($request->hasFile('image')) {
             if($post->image) { 
                 Storage::delete('public/images/posts/' . $post->image);
@@ -81,12 +84,14 @@ class PostController extends Controller
         [
             'title' => 'required|min:3|unique:posts,title,' . $id,
             'slug' => 'required|unique:posts,slug,' . $id,
-            'body' => 'required',           
+            'body' => 'required',  
+         
         ], 
         [
             'title.required' => "Post Title is required.",
             'slug.required' => "Post Slug is required.",
             'body.required' => "Post Body is required.",
+
         ]
         )->validate();
     }

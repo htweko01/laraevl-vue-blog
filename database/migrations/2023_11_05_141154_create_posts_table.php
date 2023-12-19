@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('image')->nullable();
             $table->longText('body');
-            $table->boolean('active')->default(true);
+            $table->boolean('active');
             $table->date('published_at')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignId('edited_by')->nullable()->references('id')->on('users');
