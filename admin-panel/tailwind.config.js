@@ -6,6 +6,7 @@ export default {
         "./index.html",
         "./src/**/*.{vue,js,ts,jsx,tsx}",
         "./node_modules/vue-tailwind-datepicker/**/*.js",
+        "./node_modules/flowbite/**/*.js",
     ],
     theme: {
         extend: {
@@ -28,5 +29,5 @@ export default {
             }),
         },
     },
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [require("@tailwindcss/forms"), require("flowbite/plugin")],
 };
