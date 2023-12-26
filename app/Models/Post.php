@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,8 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
+
+
     protected $fillable = [
         'title',
         'slug',
@@ -38,4 +41,9 @@ class Post extends Model
         'edited_by',
         'published_at',
     ];
+
+    public function shortBody() 
+    {
+        return Str::limit($this->body, 100, '...');
+    }
 }

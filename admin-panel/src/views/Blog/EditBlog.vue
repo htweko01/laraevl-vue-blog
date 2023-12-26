@@ -7,8 +7,6 @@ import { useRouter, useRoute } from "vue-router";
 const store = usePostStore();
 const router = useRouter();
 const route = useRoute();
-
-onMounted(() => {});
 </script>
 
 <template>
